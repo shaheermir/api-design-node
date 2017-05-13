@@ -1,28 +1,29 @@
 // TODO: mount the tigers route with a a new router just for tigers
 // exactly like lions below
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var _ = require('lodash');
-var morgan = require('morgan');
+var express = require('express')
+var bodyParser = require('body-parser')
+var app = express()
+var _ = require('lodash')
+var morgan = require('morgan')
 
-var lionRouter = require('./lions');
-var tigerRouter = require('./tigers');
+var lionRouter = require('./lions')
+var tigerRouter = require('./tigers')
 
 app.use(morgan('dev'))
-app.use(express.static('client'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(express.static('client'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // this is called mounting. when ever a req comes in for
 // '/lion' we want to use this router
-app.use('/lions', lionRouter);
+app.use('/lions', lionRouter)
+app.use('/tigers', tigerRouter)
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err) {
-    res.status(500).send(error);
+    res.status(500).send(err.message)
   }
-});
+})
 
-
-app.listen(3000);
-console.log('on port 3000');
+app.listen(3000, () => {
+  console.log('on port 3000')
+})
